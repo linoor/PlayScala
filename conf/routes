@@ -12,12 +12,27 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /user/:id/cart
-POST    /user/:id/cart
+GET     /user/:id/chart             controllers.Chart.get(id: Long)
+POST    /user/:id/chart             controllers.Chart.add(id: Long)
+PUT     /user/:id/chart             controllers.Chart.change(id: Long)
 
-GET     /user/:id/payment
-POST    /user/:id/payment
+GET     /user/:id/payment           controllers.Payments.get(userId: Long)
+POST    /user/:id/payment           controllers.Payments.pay(userId: Long)
 
-GET     /item/:id
-POST    /item/:id
-PUT     /item/:id
+GET     /items                      controllers.Items.all()
+GET     /item/:id                   controllers.Items.get(id: Long)
+POST    /item/:id                   controllers.Items.add(id: Long)
+PUT     /item/:id                   controllers.Items.change(id: Long)
+DELETE  /item/:id                   controllers.Items.remove(id: Long)
+
+GET     /users                      controllers.Users.all()
+GET     /user/:id                   controllers.Users.get(id: Long)
+POST    /user/:id                   controllers.Users.add(id: Long)
+PUT     /user/:id                   controllers.Users.change(id: Long)
+DELETE  /user/:id                   controllers.Users.remove(id: Long)
+
+GET     /orders                     controllers.Orders.all()
+GET     /order/:id                  controllers.Orders.get(id: Long)
+POST    /order/:id                  controllers.Orders.add(id: Long)
+PUT     /order/:id                  controllers.Orders.change(id: Long)
+DELETE  /order/:id                  controllers.Orders.remove(id: Long)
