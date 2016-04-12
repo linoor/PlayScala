@@ -1,6 +1,6 @@
 package controllers
 
-object Chart {
+class Chart {
   def add(id: Long) = play.mvc.Results.TODO
 
   def get(id: Long) = play.mvc.Results.TODO

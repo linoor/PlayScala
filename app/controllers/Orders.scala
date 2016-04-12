@@ -1,6 +1,6 @@
 package controllers
 
-object Orders {
+class Orders {
   def all() = play.mvc.Results.TODO
 
   def get(id: Long) = play.mvc.Results.TODO
