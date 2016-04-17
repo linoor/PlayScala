@@ -2,19 +2,111 @@
  * This template takes a single argument, a String containing a
  * message to display.
  *@
-@(message: String)
+@*(message: String, items: List[Item])*@
 
 @*
  * Call the the `main` template with two arguments. The first
  * argument is a `String` with the title of the page, the second
  * argument is an `Html` object containing the body of the page.
  *@
-@main("Anugro") {
+@main("Allugro") {
     <div class="row">
         <div class="col-xs-12">
             <div class="page-header">
-                <h1>Super sklep Anugro</h1>
+                <h1>Super sklep Allugro</h1>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <ul class="items-list">
+            <div class="col-md-4 col-xl-12">
+                <li>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://lorempixel.com/64/64/" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Item title</h4>
+                            <div class="item-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-4 col-xl-12">
+                <li>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://lorempixel.com/64/64/" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Item title</h4>
+                            <div class="item-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-4 col-xl-12">
+                <li>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://lorempixel.com/64/64/" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Item title</h4>
+                            <div class="item-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+            <div class="col-md-4 col-xl-12">
+                <li>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://lorempixel.com/64/64/" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Item title</h4>
+                            <div class="item-description">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                                dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                                mollit anim id est laborum.
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
     </div>
 }
