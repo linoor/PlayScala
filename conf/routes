@@ -14,9 +14,9 @@ GET           /assets/*file                controllers.Assets.versioned(path="/p
 
 # TODO add regexes
 
-GET           /user/:id/cart               controllers.Cart.get(id: Long)
-POST          /user/:id/cart              controllers.Cart.add(id: Long)
-PUT           /user/:id/cart              controllers.Cart.change(id: Long)
+GET           /user/:id/cart               controllers.CartController.get(id: Long)
+POST          /user/:id/cart              controllers.CartController.add(id: Long)
+PUT           /user/:id/cart              controllers.CartController.change(id: Long)
 
 GET           /user/:userId/payment        controllers.Payments.get(userId: Long)
 POST          /user/:userId/payment        controllers.Payments.pay(userId: Long)

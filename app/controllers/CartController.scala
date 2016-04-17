@@ -1,6 +1,6 @@
 package controllers
 
-class Cart {
+class CartController {
   def add(id: Long) = play.mvc.Results.TODO
 
   def get(id: Long) = play.mvc.Results.TODO
