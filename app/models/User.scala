@@ -5,13 +5,22 @@ package models
   */
 case class User(id: Long, email: String, password: String, fullName: String, isAdmin: Boolean)
 
-object User {
+object Users {
 
-  def all(): List[User] = Nil
+  var users: Seq[User] = Seq()
 
-  def create(email: String, password: String, fullName: String, isAdmin: Boolean): Unit = {}
-
-  def delete(id: Long): Unit = {
-
+  def add(user: User): String = {
+    users = users :+ user.copy(id = users.length)
+    "User successfully added"
   }
+
+  def delete(id: Long): Option[Int] = {
+    val originalSize = users.length
+    users = users.filterNot(_.id == id)
+    Some(originalSize - users.length)
+  }
+
+  def get(id: Long): Option[User] = users.find(_.id == id)
+
+  def listAll: Seq[User] = users
 }
