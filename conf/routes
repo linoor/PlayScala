@@ -12,11 +12,11 @@ GET           /assets/*file                controllers.Assets.versioned(path="/p
 #GET           /user/:userId/payment        controllers.Payments.get(userId: Long)
 #POST          /user/:userId/payment        controllers.Payments.pay(userId: Long)
 
-#GET           /products                       controllers.Items.all()
-#GET           /product/:id                    controllers.Items.get(id: Long)
-#POST          /product/:id                    controllers.Items.add(id: Long)
-#PUT           /product/:id                    controllers.Items.change(id: Long)
-#DELETE        /product/:id                    controllers.Items.remove(id: Long)
+GET           /api/items                       controllers.ItemController.listItems()
+GET           /api/item/:id                    controllers.ItemController.get(id: Long)
+POST          /api/item                    controllers.ItemController.add()
+#PUT           /api/item/:id                    controllers.ItemController.change(id: Long)
+DELETE        /api/item/:id                    controllers.ItemController.delete(id: Long)
 
 GET           /api/users                       controllers.UserController.listUsers()
 GET           /api/user/:id                    controllers.UserController.get(id: Long)
