@@ -1,6 +1,7 @@
 package controllers
 
 import models.{User, Users}
+import play.Logger
 import play.api.libs.json.{Json, JsError}
 import play.api.mvc.{Action, AnyContent, Controller}
 
@@ -36,7 +37,7 @@ class UserController extends Controller {
         }
       }
     }.getOrElse {
-      BadRequest("Expecting application/json request body")
+      BadRequest("Expecting application/json request body: ")
     }
   }
 
