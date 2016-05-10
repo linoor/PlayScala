@@ -1,11 +1,5 @@
 @(item: Item)
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
-        A new product added: @item.name, @item.description, @item.price
-    </body>
-</html>
+
+@main("Add new item") {
+    A new product added: @item.name, @item.description, @item.price
+}

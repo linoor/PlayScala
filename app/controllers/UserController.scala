@@ -8,10 +8,10 @@ import play.api.mvc.{Action, AnyContent, Controller}
 
 class UserController extends Controller {
 
-  def index: Action[AnyContent] = Action { implicit request =>
-    val users = Users.listAll
-    Ok(views.html.index())
-  }
+//  def index: Action[AnyContent] = Action { implicit request =>
+//    val users = Users.listAll
+//    Ok(views.html.index())
+//  }
 
   def deleteUser(id: Long) = Action { implicit request =>
     if (Users.listAll.exists(_.id == id)) {
