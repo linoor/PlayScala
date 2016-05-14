@@ -1,25 +1,18 @@
 package controllers
 
-import models.{User, Users}
-import play.Logger
+import javax.inject.Inject
+
+import dao.UserDAO
+import models.User
 import play.api.libs.json.{Json, JsError}
-import play.api.mvc.{Action, AnyContent, Controller}
+import play.api.mvc.{Result, Action, AnyContent, Controller}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 
-class UserController extends Controller {
-
-//  def index: Action[AnyContent] = Action { implicit request =>
-//    val users = Users.listAll
-//    Ok(views.html.index())
-//  }
+class UserController @Inject()(userDAO: UserDAO) extends Controller {
 
   def deleteUser(id: Long) = Action { implicit request =>
-    if (Users.listAll.exists(_.id == id)) {
-      Users.delete(id)
-      Ok("The user has been removed")
-    } else {
-      Ok("There has been a problem processing your request")
-    }
+    Ok("asd")
   }
 
   def addUser() = Action { implicit request =>
@@ -28,13 +21,19 @@ class UserController extends Controller {
         val email = (json \ "email").as[String]
         val fullName = (json \ "fullname").as[String]
         val password = (json \ "password").as[String]
-        val newUser = User(0, email, password, fullName, isAdmin = false)
-        if (Users.listAll.exists(_.email == email)) {
-          Ok("This email address already exists")
-        } else {
-          Users.add(newUser)
-          Ok("User has been created")
-        }
+        var result: Result = Ok("")
+        userDAO.all().onComplete(
+          users => {
+            if (users.get.exists(_.email == email)) {
+              result = Ok("This email address already exists")
+            } else {
+              val newUser = User(users.get.length, email, password, fullName, isAdmin = false)
+              userDAO.insert(newUser)
+              result = Ok("User has been created")
+            }
+          }
+        )
+        result
       }
     }.getOrElse {
       BadRequest("Expecting application/json request body: ")
@@ -42,18 +41,28 @@ class UserController extends Controller {
   }
 
   def listUsers() = Action { implicit request =>
-    Ok(Json.toJson(Users.listAll.map { u =>
-      (u.id.toString, u.email)
-    } toMap))
+    var result = Ok("Error")
+    userDAO.all().onComplete({
+      users => {
+        result = Ok(Json.toJson(users.get.map { u =>
+            (u.id.toString, u.email)
+          } toMap))
+      }
+    })
+    result
   }
 
   def get(id: Long) = Action { implicit request =>
-    if (Users.listAll.exists(_.id == id)) {
-      Ok(Json.toJson(Users.listAll.filter(_.id == id).map { u =>
-        (u.id.toString, u.email)
-      } toMap))
-    } else {
-      Ok("This user does not exist")
-    }
+    var result = Ok("")
+    userDAO.all().onComplete(users => {
+      if (users.get.exists(_.id == id)) {
+       result = Ok(Json.toJson(users.get.filter(_.id == id).map { u =>
+           (u.id.toString, u.email)
+         } toMap))
+      } else {
+        result = Ok("This user does not exist")
+      }
+    })
+    result
   }
 }
