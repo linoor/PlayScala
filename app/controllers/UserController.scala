@@ -6,7 +6,9 @@ import dao.UserDAO
 import models.User
 import play.api.libs.json.{Json, JsError}
 import play.api.mvc.{Result, Action, AnyContent, Controller}
+import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
 
 
 class UserController @Inject()(userDAO: UserDAO) extends Controller {
@@ -21,19 +23,14 @@ class UserController @Inject()(userDAO: UserDAO) extends Controller {
         val email = (json \ "email").as[String]
         val fullName = (json \ "fullname").as[String]
         val password = (json \ "password").as[String]
-        var result: Result = Ok("")
-        userDAO.all().onComplete(
-          users => {
-            if (users.get.exists(_.email == email)) {
-              result = Ok("This email address already exists")
-            } else {
-              val newUser = User(users.get.length, email, password, fullName, isAdmin = false)
-              userDAO.insert(newUser)
-              result = Ok("User has been created")
-            }
-          }
-        )
-        result
+
+        val users = Await.result(userDAO.all(), Duration.Inf)
+        if (users.exists(_.email == email)) {
+          Ok("This user already exists")
+        } else {
+          userDAO.insert(User(users.length, email, password, fullName, false))
+          Ok("user has been created")
+        }
       }
     }.getOrElse {
       BadRequest("Expecting application/json request body: ")

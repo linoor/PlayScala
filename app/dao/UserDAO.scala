@@ -27,6 +27,8 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) 
 
   def findByName(name: String): Future[Option[User]] = db.run(Users.filter(_.fullname === name).result.headOption)
 
+  def findByEmail(email: String): Future[Option[User]] = db.run(Users.filter(_.email === email).result.headOption)
+
   def update(id: Long, user: User): Future[Unit] = {
     val userToUpdate = user.copy(id)
     db.run(Users.filter(_.id === id).update(userToUpdate).map(_ => ()))

@@ -9,9 +9,15 @@ import play.api.data.Form
 import play.api.data.Forms.mapping
 import play.api.data.Forms.text
 import play.api.data.Forms.number
+import play.api.libs.json.Json
 import play.api.mvc._
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 class ItemController @Inject() (itemDAO: ItemDAO) extends Controller {
+
+  implicit val itemFormat = Json.format[Item]
+
  val itemForm  = Form(
    mapping(
      "name" -> text(),
@@ -28,6 +34,10 @@ class ItemController @Inject() (itemDAO: ItemDAO) extends Controller {
     val item: models.Item = itemForm.bindFromRequest().get
     itemDAO.insert(item)
     Ok(views.html.newitem.render(item))
+  }
+
+  def listItems = Action.async {
+    itemDAO.all().map(items => Ok(Json.toJson(items)))
   }
 
 }
