@@ -32,11 +32,11 @@ class CartEntryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
 
   def cartEntriesForUser(user: User): Future[Seq[CartEntry]] = db.run(CartEntries.result)
 
-  private class CartsTable(tag: Tag) extends Table[CartEntry](tag, "CART") {
-    def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
-    def userId = column[Long]("USER_ID")
-    def itemName = column[String]("ITEM_ID")
-    def paid = column[Boolean]("PAID")
+  private class CartsTable(tag: Tag) extends Table[CartEntry](tag, "CART_ENTRY") {
+    def id = column[Long]("id", O.PrimaryKey)
+    def userId = column[Long]("userId")
+    def itemName = column[String]("itemName")
+    def paid = column[Boolean]("paid")
 
     def * = (id, userId, itemName, paid) <> (CartEntry.tupled, CartEntry.unapply _)
   }

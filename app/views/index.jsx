@@ -4,7 +4,18 @@ import {render} from 'react-dom';
 class Item extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            cartMessage: "Add to Cart"
+        }
+        this.addToCart = this.addToCart.bind(this)
+    }
+
+    addToCart() {
+        $.post("/api/cart/1/" + this.props.item.name, (results) => {
+            this.setState({
+                cartMessage: results
+            })
+        })
     }
 
     render () {
@@ -23,8 +34,10 @@ class Item extends React.Component {
                             <div className="item-info">
                                 <span className="item-price">Price: 5€</span>
                                 <div className="add-to-cart">
-                                    <span>Add to cart</span>
-                                    <span className="glyphicon glyphicon-shopping-cart"/>
+                                    <button onClick={this.addToCart} className="btn btn-default">
+                                        {this.state.cartMessage}
+                                        <span className="glyphicon glyphicon-shopping-cart"/>
+                                    </button>
                                 </div>
                             </div>
                         </div>

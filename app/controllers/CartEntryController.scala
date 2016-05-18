@@ -13,7 +13,9 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
   */
 class CartEntryController @Inject()(cartEntryDAO: CartEntryDAO) extends Controller {
   def addToCart(userId: Long, itemName: String) = Action.async {
-    cartEntryDAO.insert(CartEntry(0, userId, itemName, paid=false))
-      .map(i => Ok("the item has been added to the cart"))
+    cartEntryDAO.all().map(entries => cartEntryDAO.insert(CartEntry(entries.size, userId, itemName, paid=false)))
+      .map(i => Ok("the item has been added to the cart")).recover {
+      case ex: Throwable => Ok("Error WTF!?")
+    }
   }
 }

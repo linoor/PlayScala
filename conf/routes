@@ -8,7 +8,7 @@ GET           /assets/*file                controllers.Assets.versioned(path="/p
 # TODO add regexes
 #GET           /user/:id/cart/show          controllers.CartController.show(id: Long)
 #GET           /user/:id/cart               controllers.CartController.get(id: Long)
-#POST          /user/:id/cart              controllers.CartController.add(id: Long)
+POST          /api/cart/:userId/:itemName              controllers.CartEntryController.addToCart(userId: Long, itemName: String)
 #PUT           /user/:id/cart              controllers.CartController.change(id: Long)
 
 #GET           /user/:userId/payment        controllers.Payments.get(userId: Long)
