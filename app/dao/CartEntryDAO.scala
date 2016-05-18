@@ -23,7 +23,9 @@ class CartEntryDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
 
   def delete(id: Long): Future[Unit] = db.run(CartEntries.filter(_.id === id).delete).map(_ => ())
 
-  def findById(id: Long): Future[Option[Product]] = db.run(CartEntries.filter(_.id === id).result.headOption)
+  def findById(id: Long): Future[Option[CartEntry]] = db.run(CartEntries.filter(_.id === id).result.headOption)
+
+  def getAllForUser(userId: Long): Future[Seq[CartEntry]] = db.run(CartEntries.filter(_.userId === userId).result)
 
   def update(id: Long, cartEntry: CartEntry): Future[Unit] = {
     val cartEntryToUpdate: CartEntry = cartEntry.copy(id)

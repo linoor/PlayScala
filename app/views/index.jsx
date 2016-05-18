@@ -4,21 +4,25 @@ import {render} from 'react-dom';
 class Item extends React.Component {
     constructor(props) {
         super(props);
+        this.addToCart = this.addToCart.bind(this);
+        this.render = this.render.bind(this);
         this.state = {
-            cartMessage: "Add to Cart"
-        }
-        this.addToCart = this.addToCart.bind(this)
+            inCart: false
+        };
     }
 
     addToCart() {
         $.post("/api/cart/1/" + this.props.item.name, (results) => {
             this.setState({
-                cartMessage: results
+                inCart: true
             })
         })
     }
 
     render () {
+        let cartMessage = this.props.added || this.state.inCart ? "In cart" : "Add to cart";
+        let disabled = this.props.added || this.state.inCart;
+
         return (
             <div className="col-md-4">
                 <div className="media">
@@ -34,8 +38,8 @@ class Item extends React.Component {
                             <div className="item-info">
                                 <span className="item-price">Price: 5€</span>
                                 <div className="add-to-cart">
-                                    <button onClick={this.addToCart} className="btn btn-default">
-                                        {this.state.cartMessage}
+                                    <button disabled={disabled} onClick={this.addToCart} className="btn btn-default">
+                                        {cartMessage}
                                         <span className="glyphicon glyphicon-shopping-cart"/>
                                     </button>
                                 </div>
@@ -63,11 +67,21 @@ class ItemList extends React.Component {
                 items: results,
                 errorMessage: ''
             })
+        });
+        let userId = 1;
+        $.get('/api/cart/'+userId, (results) => {
+            let cartEntryItems = results.map(i => i.itemName);
+            this.setState({
+                userCartItems: cartEntryItems
+            })
         })
     }
 
     render () {
-        let items = this.state.items.map((item) => <Item item={item}/>);
+        let items = this.state.items.map((item) => {
+            let added = $.inArray(item.name, this.state.userCartItems) > -1;
+            return <Item key={item.name} item={item} added={added}/>;
+        });
 
         return (
             <div>
