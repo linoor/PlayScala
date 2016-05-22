@@ -39,5 +39,4 @@ class ItemController @Inject() (itemDAO: ItemDAO) extends Controller {
   def listItems = Action.async {
     itemDAO.all().map(items => Ok(Json.toJson(items)))
   }
-
 }

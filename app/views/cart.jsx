@@ -4,24 +4,30 @@ import {render} from 'react-dom';
 class Item extends React.Component {
     constructor(props) {
         super(props);
-        this.addToCart = this.addToCart.bind(this);
+        this.removeFromCart = this.removeFromCart.bind(this);
         this.render = this.render.bind(this);
         this.state = {
-            inCart: false
+            inCart: true
         };
     }
 
-    addToCart() {
-        $.post("/api/cart/1/" + this.props.item.name, (results) => {
-            this.setState({
-                inCart: true
+    removeFromCart() {
+        if (this.state.inCart) {
+            $.ajax({
+                url: "/api/cart/1/" + this.props.item.name,
+                type: 'DELETE',
+                success: (results) => {
+                    this.setState({
+                        inCart: false
+                    })
+                }
             })
-        })
+        }
     }
 
     render () {
-        let cartMessage = this.props.added || this.state.inCart ? "In cart" : "Add to cart";
-        let disabled = this.props.added || this.state.inCart;
+        let cartMessage = this.state.inCart ? "Remove from cart" : "Removed from cart";
+        let disabled = !this.state.inCart;
 
         return (
             <div className="col-md-4">
@@ -36,9 +42,9 @@ class Item extends React.Component {
                         <div className="item-description">
                             {this.props.item.description}
                             <div className="item-info">
-                                <span className="item-price"> {this.props.item.price}€</span>
+                                <span className="item-price">Price: {this.props.item.price}€</span>
                                 <div className="add-to-cart">
-                                    <button disabled={disabled} onClick={this.addToCart} className="btn btn-default">
+                                    <button disabled={disabled} onClick={this.removeFromCart} className="btn btn-default">
                                         {cartMessage}
                                         <span className="glyphicon glyphicon-shopping-cart"/>
                                     </button>
@@ -78,7 +84,10 @@ class ItemList extends React.Component {
     }
 
     render () {
-        let items = this.state.items.map((item) => {
+        let filteredItems = this.state.items.filter((item) => {
+            return $.inArray(item.name, this.state.userCartItems) > -1;
+        });
+        let items = filteredItems.map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
             return <Item key={item.name} item={item} added={added}/>;
         });
@@ -94,6 +103,17 @@ class ItemList extends React.Component {
     }
 }
 
-if (document.getElementById('item-list')) {
-    render(<ItemList/>, document.getElementById('item-list'));
+class Cart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        return (
+            <ItemList/>
+        )
+    }
 }
+
+render(<Cart/>, document.getElementById('items'));

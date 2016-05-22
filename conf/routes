@@ -1,5 +1,6 @@
 GET           /                            controllers.HomeController.index
 GET          /signup    controllers.SignupController.index
+GET          /cart      controllers.CartController.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
@@ -8,14 +9,13 @@ GET           /assets/*file                controllers.Assets.versioned(path="/p
 # TODO add regexes
 #GET           /user/:id/cart/show          controllers.CartController.show(id: Long)
 POST          /api/cart/:userId/:itemName              controllers.CartEntryController.addToCart(userId: Long, itemName: String)
+DELETE        /api/cart/:userId/:itemName    controllers.CartEntryController.removeFromCart(userId: Long, itemName: String)
 GET           /api/cart/:userId              controllers.CartEntryController.getAllForUser(userId: Long)
-#PUT           /user/:id/cart              controllers.CartController.change(id: Long)
 
 #GET           /user/:userId/payment        controllers.Payments.get(userId: Long)
 #POST          /user/:userId/payment        controllers.Payments.pay(userId: Long)
 
 GET           /api/items                       controllers.ItemController.listItems()
-#GET           /api/item/:id                    controllers.ItemController.get(id: Long)
 #POST          /api/item                    controllers.ItemController.add()
 #PUT           /api/item/:id                    controllers.ItemController.change(id: Long)
 #DELETE        /api/item/:id                    controllers.ItemController.delete(id: Long)

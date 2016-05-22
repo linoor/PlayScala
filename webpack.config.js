@@ -7,7 +7,8 @@ var APP_DIR = path.resolve(__dirname, 'app/views');
 var config = {
     entry: {
         index: APP_DIR + '/index.jsx',
-        signup: APP_DIR + '/signup.jsx'
+        signup: APP_DIR + '/signup.jsx',
+        cart: APP_DIR + '/cart.jsx'
     },
     output: {
         path: BUILD_DIR,
@@ -21,6 +22,10 @@ var config = {
                 loader: 'babel'
             }
         ]
+    },
+    resolve: {
+        root: path.resolve(BUILD_DIR),
+        extensions: ['', '.js']
     }
 };
 
