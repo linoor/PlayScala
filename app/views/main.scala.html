@@ -4,7 +4,7 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String)(content: Html)
+@(title: String, active: String)(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,15 +32,12 @@
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="@routes.HomeController.index()">Home</a></li>
-                            <li class=""><a href="@routes.SignupController.index()">Home</a></li>
-                            <li><a href="@routes.CartController.index()">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-                            <li><a href="#">Page 2</a></li>
-                            <li><a href="#">Page 3</a></li>
+                            <li class="@{if (active == "home") "active" else ""}"><a href="@routes.HomeController.index()">Home</a></li>
+                            <li class="@{if (active == "cart") "active" else ""}"><a href="@routes.CartController.index()">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="@routes.SignupController.index()"><span class="glyphicon glyphicon-user"></span>Sign up</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li class="@{if (active == "signup") "active" else ""}"><a href="@routes.SignupController.index()"><span class="glyphicon glyphicon-user"></span>Sign up</a></li>
+                            <li class="@{if (active == "login") "active" else ""}"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         </ul>
                     </div>
                 </div>
