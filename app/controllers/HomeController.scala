@@ -22,7 +22,7 @@ class HomeController @Inject() (itemDAO: ItemDAO, configuration: play.api.Config
     val state = UUID.randomUUID().toString  // random confirmation string
     val redirectUrl = oauth2.getAuthorizationUrl(callbackUrl, scope, state)
     Ok(views.html.index(redirectUrl)).
-      withSession("oauth-state" -> state)
+      withSession(request.session + ("oauth-state" -> state))
   }
 
 }

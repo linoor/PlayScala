@@ -1,4 +1,4 @@
-@(item: Item)
+@(item: Item)(implicit session: Session)
 
 @main("Add new item", "newitem") {
     A new product added: @item.name, @item.description, @item.price

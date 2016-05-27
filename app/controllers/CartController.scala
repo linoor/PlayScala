@@ -5,7 +5,8 @@ import play.api.mvc._
 
 @Singleton
 class CartController @Inject() extends Controller {
-  def index()  = Action {
-    Ok(views.html.cart())
+  def index()  = Action { implicit request => {
+    Ok(views.html.cart()).withSession(request.session)
+  }
   }
 }

@@ -55,11 +55,15 @@ class OAuth2 @Inject() (configuration: play.api.Configuration, ws: WSClient) ext
 
   def success() = Action.async { request =>
     request.session.get("oauth-token").fold(Future.successful(Unauthorized("No way Jose"))) { authToken =>
-      ws.url("https://api.github.com/user/repos").
+      ws.url("https://api.github.com/user").
         withHeaders(HeaderNames.AUTHORIZATION -> s"token $authToken").
         get().map { response =>
-        Ok(response.json)
+        Redirect(routes.HomeController.index()).withSession("user" -> "asd")
       }
     }
+  }
+
+  def logout = Action {
+    Redirect(routes.HomeController.index).withNewSession
   }
 }

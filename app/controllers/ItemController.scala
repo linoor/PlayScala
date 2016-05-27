@@ -26,14 +26,15 @@ class ItemController @Inject() (itemDAO: ItemDAO) extends Controller {
    )(Item.apply)(Item.unapply)
  )
 
-  def createitem = Action {
-    Ok(views.html.createitem.render())
+  def createitem = Action { implicit request => {
+    Ok(views.html.createitem.render(request.session))
+    }
   }
 
   def newitem = Action { implicit request =>
     val item: models.Item = itemForm.bindFromRequest().get
     itemDAO.insert(item)
-    Ok(views.html.newitem.render(item))
+    Ok(views.html.newitem.render(item, request.session))
   }
 
   def listItems = Action.async {

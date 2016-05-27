@@ -4,7 +4,7 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String, active: String, redirectUrl: String="")(content: Html)
+@(title: String, active: String, redirectUrl: String="")(content: Html)(implicit session: Session)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,8 +36,11 @@
                             <li class="@{if (active == "cart") "active" else ""}"><a href="@routes.CartController.index()">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="@{if (active == "signup") "active" else ""}"><a href="@routes.SignupController.index()"><span class="glyphicon glyphicon-user"></span>Sign up</a></li>
-                            <li class="@{if (active == "login") "active" else ""}"><a href="@redirectUrl"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+                            @session.get("user").map { state =>
+                            <li><a href="@routes.OAuth2.logout()">Logout<span class="glyphicon glyphicon-user"></span></a></li>
+                            }.getOrElse{
+                                <li><a href="@redirectUrl">Login<span class="glyphicon glyphicon-user"></span></a></li>
+                            }
                         </ul>
                     </div>
                 </div>

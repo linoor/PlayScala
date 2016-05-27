@@ -1,9 +1,9 @@
 # OAuth2 Stuff
 GET        /_oauth-callback        controllers.OAuth2.callback(code: Option[String], state: Option[String])
 GET        /_oauth-success         controllers.OAuth2.success
+GET        /logout                 controllers.OAuth2.logout
 
 GET           /                                  controllers.HomeController.index
-GET          /signup                             controllers.SignupController.index
 GET          /login                              controllers.LoginController.index
 GET          /cart                               controllers.CartController.index
 
