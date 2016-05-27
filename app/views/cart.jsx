@@ -90,15 +90,14 @@ class ItemList extends React.Component {
     }
 
     render () {
-        let getRandomInt = function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
+        var index = 0;
         let filteredItems = this.state.items.filter((item) => {
             return $.inArray(item.name, this.state.userCartItems) > -1;
         });
         let items = filteredItems.map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
-            return <Item key={item.name} item={item} added={added} num={getRandomInt(0,10)} userId={this.state.userId} />;
+            index += 1;
+            return <Item key={item.name} item={item} added={added} num={index} userId={this.state.userId} />;
         });
 
         return (
