@@ -28,13 +28,14 @@ class Item extends React.Component {
     render () {
         let cartMessage = this.state.inCart ? "Remove from cart" : "Removed from cart";
         let disabled = !this.state.inCart;
+        let src = "http://lorempixel.com/200/320/food/" + this.props.num;
 
         return (
             <div className="col-md-4">
                 <div className="media">
                     <div className="media-left">
                         <a href="#">
-                            <img className="media-object" src="http://lorempixel.com/64/64/" alt="..."/>
+                            <img className="media-object" src={src} alt="..."/>
                         </a>
                     </div>
                     <div className="media-body">
@@ -89,12 +90,15 @@ class ItemList extends React.Component {
     }
 
     render () {
+        let getRandomInt = function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
         let filteredItems = this.state.items.filter((item) => {
             return $.inArray(item.name, this.state.userCartItems) > -1;
         });
         let items = filteredItems.map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
-            return <Item key={item.name} item={item} added={added} userId={this.state.userId} />;
+            return <Item key={item.name} item={item} added={added} num={getRandomInt(0,10)} userId={this.state.userId} />;
         });
 
         return (
