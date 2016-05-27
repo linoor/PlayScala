@@ -14,7 +14,7 @@ class Item extends React.Component {
     removeFromCart() {
         if (this.state.inCart) {
             $.ajax({
-                url: "/api/cart/1/" + this.props.item.name,
+                url: "/api/cart/"+this.props.userId+"/" + this.props.item.name,
                 type: 'DELETE',
                 success: (results) => {
                     this.setState({
@@ -68,18 +68,23 @@ class ItemList extends React.Component {
     }
 
     componentDidMount () {
-        $.get('/api/items', (results) => {
+
+        $.get('/session', (results) => {
             this.setState({
-                items: results,
-                errorMessage: ''
-            })
-        });
-        let userId = 1;
-        $.get('/api/cart/'+userId, (results) => {
-            let cartEntryItems = results.map(i => i.itemName);
-            this.setState({
-                userCartItems: cartEntryItems
-            })
+                userId: results
+            });
+            $.get('/api/items', (results) => {
+                this.setState({
+                    items: results,
+                    errorMessage: ''
+                })
+            });
+            $.get('/api/cart/'+this.state.userId, (results) => {
+                let cartEntryItems = results.map(i => i.itemName);
+                this.setState({
+                    userCartItems: cartEntryItems
+                })
+            });
         })
     }
 
@@ -89,7 +94,7 @@ class ItemList extends React.Component {
         });
         let items = filteredItems.map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
-            return <Item key={item.name} item={item} added={added}/>;
+            return <Item key={item.name} item={item} added={added} userId={this.state.userId} />;
         });
 
         return (

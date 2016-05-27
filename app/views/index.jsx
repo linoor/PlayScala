@@ -12,7 +12,7 @@ class Item extends React.Component {
     }
 
     addToCart() {
-        $.post("/api/cart/1/" + this.props.item.name, (results) => {
+        $.post("/api/cart/"+this.props.userId+"/" + this.props.item.name, (results) => {
             this.setState({
                 inCart: true
             })
@@ -70,24 +70,22 @@ class ItemList extends React.Component {
     }
 
     componentDidMount () {
-        $.get('/api/items', (results) => {
-            this.setState({
-                items: results,
-                errorMessage: ''
-            })
-        });
-        let userId = 1;
-        $.get('/api/cart/'+userId, (results) => {
-            let cartEntryItems = results.map(i => i.itemName);
-            this.setState({
-                userCartItems: cartEntryItems
-            })
-        });
-
         $.get('/session', (results) => {
             this.setState({
                 userId: results
             })
+            $.get('/api/items', (results) => {
+                this.setState({
+                    items: results,
+                    errorMessage: ''
+                })
+            });
+            $.get('/api/cart/'+this.state.userId, (results) => {
+                let cartEntryItems = results.map(i => i.itemName);
+                this.setState({
+                    userCartItems: cartEntryItems
+                })
+            });
         })
     }
 
