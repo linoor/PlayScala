@@ -8,6 +8,7 @@ import play.api.mvc.{Action, Controller, Results}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.parsing.json.JSONArray
 
 class OAuth2 @Inject() (configuration: play.api.Configuration, ws: WSClient) extends Controller {
   lazy val githubAuthId = configuration.getString("github.client.id").get
@@ -58,7 +59,9 @@ class OAuth2 @Inject() (configuration: play.api.Configuration, ws: WSClient) ext
       ws.url("https://api.github.com/user").
         withHeaders(HeaderNames.AUTHORIZATION -> s"token $authToken").
         get().map { response =>
-        Redirect(routes.HomeController.index()).withSession("user" -> "asd")
+        Redirect(routes.HomeController.index())
+          .withSession("user" ->
+            (response.json \ "login").get.toString().replace("\"", ""))
       }
     }
   }
