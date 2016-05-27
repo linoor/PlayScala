@@ -6,6 +6,12 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.7"
 
+resolvers := ("Atlassian Releases" at "https://maven.atlassian.com/public/") +: resolvers.value
+
+resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
+
+resolvers += Resolver.sonatypeRepo("snapshots")
+
 libraryDependencies ++= Seq(
   cache,
   ws,
@@ -19,6 +25,8 @@ libraryDependencies ++= Seq("com.typesafe.play" %% "play-slick" % "2.0.0")
 libraryDependencies ++= Seq("com.typesafe.play" %% "play-slick-evolutions" % "2.0.0")
 
 libraryDependencies += evolutions
+
+routesGenerator := StaticRoutesGenerator
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 

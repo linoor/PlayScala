@@ -37,7 +37,7 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="@{if (active == "signup") "active" else ""}"><a href="@routes.SignupController.index()"><span class="glyphicon glyphicon-user"></span>Sign up</a></li>
-                            <li class="@{if (active == "login") "active" else ""}"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li class="@{if (active == "login") "active" else ""}"><a href="@routes.LoginController.index()"><span class="glyphicon glyphicon-user"></span>Login</a></li>
                         </ul>
                     </div>
                 </div>
