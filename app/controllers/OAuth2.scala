@@ -3,6 +3,7 @@ package controllers
 import javax.inject.Inject
 
 import play.api.http.{HeaderNames, MimeTypes}
+import play.api.libs.json.Json
 import play.api.libs.ws.WSClient
 import play.api.mvc.{Action, Controller, Results}
 
@@ -60,9 +61,18 @@ class OAuth2 @Inject() (configuration: play.api.Configuration, ws: WSClient) ext
         withHeaders(HeaderNames.AUTHORIZATION -> s"token $authToken").
         get().map { response =>
         Redirect(routes.HomeController.index())
-          .withSession("user" ->
-            (response.json \ "login").get.toString().replace("\"", ""))
+          .withSession(
+            "user" -> (response.json \ "login").get.toString().replace("\"", ""),
+            "id" -> (response.json \ "id").get.toString()
+          )
       }
+    }
+  }
+
+  def currentSession() = Action { request =>
+    request.session.get("id") match {
+      case Some(id) => Ok(id)
+      case None => Ok("None")
     }
   }
 

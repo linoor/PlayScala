@@ -7,7 +7,7 @@ class Item extends React.Component {
         this.addToCart = this.addToCart.bind(this);
         this.render = this.render.bind(this);
         this.state = {
-            inCart: false
+            inCart: false,
         };
     }
 
@@ -37,12 +37,20 @@ class Item extends React.Component {
                             {this.props.item.description}
                             <div className="item-info">
                                 <span className="item-price"> {this.props.item.price}€</span>
-                                <div className="add-to-cart">
-                                    <button disabled={disabled} onClick={this.addToCart} className="btn btn-default">
-                                        {cartMessage}
-                                        <span className="glyphicon glyphicon-shopping-cart"/>
-                                    </button>
-                                </div>
+                                {( () => {
+                                        if (this.props.userId != "None") {
+                                            return (
+                                            <div className="add-to-cart">
+                                                <button disabled={disabled} onClick={this.addToCart}
+                                                        className="btn btn-default">
+                                                    {cartMessage}
+                                                    <span className="glyphicon glyphicon-shopping-cart"/>
+                                                </button>
+                                            </div>
+                                            )
+                                        }
+                                    }
+                                )()}
                             </div>
                         </div>
                     </div>
@@ -74,13 +82,19 @@ class ItemList extends React.Component {
             this.setState({
                 userCartItems: cartEntryItems
             })
+        });
+
+        $.get('/session', (results) => {
+            this.setState({
+                userId: results
+            })
         })
     }
 
     render () {
         let items = this.state.items.map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
-            return <Item key={item.name} item={item} added={added}/>;
+            return <Item key={item.name} item={item} added={added} userId={this.state.userId} />;
         });
 
         return (

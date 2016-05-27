@@ -7,7 +7,6 @@ var APP_DIR = path.resolve(__dirname, 'app/views');
 var config = {
     entry: {
         index: APP_DIR + '/index.jsx',
-        signup: APP_DIR + '/signup.jsx',
         cart: APP_DIR + '/cart.jsx'
     },
     output: {

@@ -2,6 +2,7 @@
 GET        /_oauth-callback        controllers.OAuth2.callback(code: Option[String], state: Option[String])
 GET        /_oauth-success         controllers.OAuth2.success
 GET        /logout                 controllers.OAuth2.logout
+GET        /session                controllers.OAuth2.currentSession
 
 GET           /                                  controllers.HomeController.index
 GET          /login                              controllers.LoginController.index
