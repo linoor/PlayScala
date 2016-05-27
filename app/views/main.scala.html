@@ -28,12 +28,16 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Anugro</a>
+                        <a class="navbar-brand" href="@routes.HomeController.index()">Anugro</a>
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
                             <li class="@{if (active == "home") "active" else ""}"><a href="@routes.HomeController.index()">Home</a></li>
-                            <li class="@{if (active == "cart") "active" else ""}"><a href="@routes.CartController.index()">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                            @session.get("user").map { user =>
+                                <li class="@{if (active == "cart") "active" else ""}"><a href="@routes.CartController.index()">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                              }.getOrElse {
+                                <li><a href="@redirectUrl">Cart <span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                            }
                             @session.get("user").map { user =>
                                 @if(user.contains("linoor")) {
                                     <li class="@{if (active == "newitem") "active" else ""}"><a href="@routes.ItemController.createitem()">Add new item <span class="glyphicon glyphicon-plus"></span></a></li>
@@ -42,7 +46,8 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             @session.get("user").map { user =>
-                            <li><a href="@routes.OAuth2.logout()">Logout<span class="glyphicon glyphicon-user"></span></a></li>
+                            <li><a href="#">Hello, @user</a></li>
+                            <li><a href="@routes.OAuth2.logout()">Logout <span class="glyphicon glyphicon-user"></span></a></li>
                             }.getOrElse{
                                 <li><a href="@redirectUrl">Login <span class="glyphicon glyphicon-user"></span></a></li>
                             }
