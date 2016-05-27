@@ -3,7 +3,6 @@ package controllers
 import java.util.UUID
 import javax.inject._
 import dao.ItemDAO
-import play.api.Play
 import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,11 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @Singleton
 class HomeController @Inject() (itemDAO: ItemDAO, configuration: play.api.Configuration) extends Controller {
 
-  def index = Action.async {
-    itemDAO.all().map(items => Ok(views.html.index("")))
-  }
-
-  def home = Action { implicit request =>
+  def index = Action { implicit request =>
     val oauth2 = new OAuth2(configuration)
     val callbackUrl = routes.OAuth2.callback(None, None).absoluteURL()
     val scope = "repo"   // github scope - request repo access

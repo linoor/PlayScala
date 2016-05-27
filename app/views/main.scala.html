@@ -4,7 +4,7 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String, active: String)(content: Html)
+@(title: String, active: String, redirectUrl: String="")(content: Html)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +37,7 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="@{if (active == "signup") "active" else ""}"><a href="@routes.SignupController.index()"><span class="glyphicon glyphicon-user"></span>Sign up</a></li>
-                            <li class="@{if (active == "login") "active" else ""}"><a href="@routes.LoginController.index()"><span class="glyphicon glyphicon-user"></span>Login</a></li>
+                            <li class="@{if (active == "login") "active" else ""}"><a href="@redirectUrl"><span class="glyphicon glyphicon-user"></span>Login</a></li>
                         </ul>
                     </div>
                 </div>
