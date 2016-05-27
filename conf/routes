@@ -28,6 +28,9 @@ GET           /api/items                       controllers.ItemController.listIt
 GET           /createitem                   controllers.ItemController.createitem
 POST          /newitem                      controllers.ItemController.newitem
 
+GET           /removeitem                   controllers.ItemController.removeitem
+POST          /itemremoved                  controllers.ItemController.itemremoved
+
 GET           /api/users                       controllers.UserController.listUsers()
 GET           /api/user/:id                    controllers.UserController.get(id: Long)
 POST          /api/user                    controllers.UserController.addUser()

@@ -43,6 +43,11 @@
                                     <li class="@{if (active == "newitem") "active" else ""}"><a href="@routes.ItemController.createitem()">Add new item <span class="glyphicon glyphicon-plus"></span></a></li>
                                 } else {}
                             }
+                            @session.get("user").map { user =>
+                                @if(user.contains("linoor")) {
+                                    <li class="@{if (active == "removeitem") "active" else ""}"><a href="@routes.ItemController.removeitem()">Remove item <span class="glyphicon glyphicon-minus"></span></a></li>
+                                } else {}
+                            }
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             @session.get("user").map { user =>

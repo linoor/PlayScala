@@ -1,0 +1,17 @@
+@()(implicit session: Session)
+
+@main("Add new item", "removeitem") {
+    @helper.form(action=routes.ItemController.itemremoved) {
+        <div class="control-group">
+            <label class="control-label" for="name">Product name</label>
+            <div class="controls">
+                <input type="text" name="name" placeholder="" class="form-control input-lg" required/>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-lg btn-success">Remove</button>
+            </div>
+        </div>
+    }
+}

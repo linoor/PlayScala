@@ -6,7 +6,7 @@ import javax.inject.Inject
 import dao.ItemDAO
 import models.Item
 import play.api.data.Form
-import play.api.data.Forms.mapping
+import play.api.data.Forms.{mapping, single}
 import play.api.data.Forms.text
 import play.api.data.Forms.number
 import play.api.libs.json.Json
@@ -40,4 +40,23 @@ class ItemController @Inject() (itemDAO: ItemDAO) extends Controller {
   def listItems = Action.async {
     itemDAO.all().map(items => Ok(Json.toJson(items)))
   }
+
+  val itemRemoveForm = Form(
+    single(
+      "name" -> text()
+    )
+  )
+
+  def removeitem = Action { implicit request => {
+      Ok(views.html.removeitem.render(request.session))
+    }
+  }
+
+  def itemremoved = Action { implicit request =>  {
+      val item: String = itemRemoveForm.bindFromRequest().get
+      itemDAO.delete(item)
+      Ok(views.html.itemremoved(item)).withSession(request.session)
+    }
+  }
+
 }
