@@ -11,6 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.parsing.json.JSONArray
 
+
 class OAuth2 @Inject() (configuration: play.api.Configuration, ws: WSClient) extends Controller {
   lazy val githubAuthId = configuration.getString("github.client.id").get
   lazy val githubAuthSecret = configuration.getString("github.client.secret").get
