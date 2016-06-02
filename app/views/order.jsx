@@ -47,7 +47,13 @@ class Order extends React.Component {
             });
             return;
         }
-        this.state.items.map((item) => {
+        if (this.state.checkedItems.length == 0)  {
+            this.setState({
+                errorMessage: "you have to select at least one item"
+            });
+            return;
+        }
+        this.state.checkedItems.map((item) => {
             $.ajax({
                 type: 'POST',
                 url: '/api/order',
