@@ -24,12 +24,6 @@ class Order extends React.Component {
             comments: '',
             errorMessage: '',
         });
-        $.get('/api/cart/'+this.state.userId, (results) => {
-            let cartEntryItems = results.map(i => i.itemName);
-            this.setState({
-                items: cartEntryItems
-            })
-        });
     }
 
     componentDidMount () {
@@ -91,6 +85,11 @@ class Order extends React.Component {
                     $.ajax({
                         url: "/api/cart/"+this.state.userId+"/" + item,
                         type: 'DELETE',
+                        success: (data) => {
+                            this.setState({
+                                items: $.grep(this.state.items, (value) => value !== item)
+                            })
+                        }
                     });
                 }).bind(this)(),
                 failure: (() => {
