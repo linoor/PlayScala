@@ -8,8 +8,23 @@ class Order extends React.Component {
             name: '',
             address: '',
             postcode: '',
-            comments: ''
+            comments: '',
+            buttontext: 'Pay Now!',
         };
+    }
+
+    componentDidMount () {
+        $.get('/session', (results) => {
+            this.setState({
+                userId: results
+            });
+            $.get('/api/cart/'+this.state.userId, (results) => {
+                let cartEntryItems = results.map(i => i.itemName);
+                this.setState({
+                    items: cartEntryItems
+                })
+            });
+        })
     }
 
     inputOnChange(inputName) {
@@ -18,6 +33,35 @@ class Order extends React.Component {
             newState[inputName] = value;
             this.setState(newState);
         }
+    }
+
+    submit() {
+        this.state.items.map((item) => {
+            $.ajax({
+                type: 'POST',
+                url: '/api/order',
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify({
+                    userId: parseInt(this.state.userId),
+                    itemname: item,
+                    name: this.state.name,
+                    address: this.state.address,
+                    postcode: this.state.postcode,
+                    comments: this.state.comments,
+                }),
+                success: (result) => {
+                    this.setState({
+                        buttontext: "Paid!"
+                    })
+                },
+                failure: () => {
+                    this.setState({
+                        buttontext: "Error"
+                    })
+                }
+            })
+        })
     }
 
     render() {
@@ -43,7 +87,7 @@ class Order extends React.Component {
                        description="Comments"
                        placeholder="Any additional info? (size, number of items etc.)"
                        name="comments"/>
-                <Submit />
+                <Submit onClick={this.submit.bind(this)} buttontext={this.state.buttontext} />
             </div>
         )
     }
@@ -85,7 +129,7 @@ class Submit extends React.Component {
         return (
             <div className="control-group">
                 <div className="controls">
-                    <button type="submit" className="btn btn-success">Pay Now!</button>
+                    <button onClick={this.props.onClick} type="submit" className="btn btn-success">{this.props.buttontext}</button>
                 </div>
             </div>
         )
