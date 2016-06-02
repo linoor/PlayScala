@@ -71,13 +71,17 @@ class Order extends React.Component {
                     this.setState({
                         buttontext: "Paid!",
                         errorMessage: ""
+                    });
+                    $.ajax({
+                        url: "/api/cart/"+this.state.userId+"/" + item,
+                        type: 'DELETE',
                     })
                 }).bind(this)(),
                 failure: (() => {
                     this.setState({
                         buttontext: "Error"
                     })
-                }).bind(this)()
+                }).bind(this)
             }).bind(this)
         }).bind(this)
     }
