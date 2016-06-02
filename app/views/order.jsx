@@ -16,6 +16,22 @@ class Order extends React.Component {
         };
     }
 
+    clearState() {
+        this.setState({
+            name: '',
+            address: '',
+            postcode: '',
+            comments: '',
+            errorMessage: '',
+        });
+        $.get('/api/cart/'+this.state.userId, (results) => {
+            let cartEntryItems = results.map(i => i.itemName);
+            this.setState({
+                items: cartEntryItems
+            })
+        });
+    }
+
     componentDidMount () {
         $.get('/session', (results) => {
             this.setState({
@@ -53,7 +69,7 @@ class Order extends React.Component {
             });
             return;
         }
-        this.state.checkedItems.map((item) => {
+        this.state.checkedItems.map(item => {
             $.ajax({
                 type: 'POST',
                 url: '/api/order',
@@ -75,15 +91,16 @@ class Order extends React.Component {
                     $.ajax({
                         url: "/api/cart/"+this.state.userId+"/" + item,
                         type: 'DELETE',
-                    })
+                    });
                 }).bind(this)(),
                 failure: (() => {
                     this.setState({
                         buttontext: "Error"
                     })
                 }).bind(this)
-            }).bind(this)
-        }).bind(this)
+            })
+        });
+        this.clearState().bind(this);
     }
 
     handleCheckbox(item, checked) {
