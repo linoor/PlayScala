@@ -10,6 +10,7 @@ class Order extends React.Component {
             postcode: '',
             comments: '',
             buttontext: 'Pay Now!',
+            errorMessage: '',
         };
     }
 
@@ -36,6 +37,14 @@ class Order extends React.Component {
     }
 
     submit() {
+        if (this.state.name === '' ||
+            this.state.address === '' ||
+            this.state.postcode === '') {
+            this.setState({
+                errorMessage: "You have to fill the fields"
+            });
+            return;
+        }
         this.state.items.map((item) => {
             $.ajax({
                 type: 'POST',
@@ -48,20 +57,21 @@ class Order extends React.Component {
                     name: this.state.name,
                     address: this.state.address,
                     postcode: this.state.postcode,
-                    comments: this.state.comments,
+                    comments: this.state.comments
                 }),
-                success: (result) => {
+                success: ((data) => {
                     this.setState({
-                        buttontext: "Paid!"
+                        buttontext: "Paid!",
+                        errorMessage: ""
                     })
-                },
-                failure: () => {
+                }).bind(this)(),
+                failure: (() => {
                     this.setState({
                         buttontext: "Error"
                     })
-                }
-            })
-        })
+                }).bind(this)()
+            }).bind(this)
+        }).bind(this)
     }
 
     render() {
@@ -88,6 +98,7 @@ class Order extends React.Component {
                        placeholder="Any additional info? (size, number of items etc.)"
                        name="comments"/>
                 <Submit onClick={this.submit.bind(this)} buttontext={this.state.buttontext} />
+                <span style={{color: 'red'}}>{this.state.errorMessage}</span>
             </div>
         )
     }
