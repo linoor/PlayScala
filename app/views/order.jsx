@@ -5,10 +5,10 @@ class Order extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'test',
-            address: 'test',
-            postcode: 'test',
-            comments: 'test'
+            name: '',
+            address: '',
+            postcode: '',
+            comments: ''
         };
     }
 
@@ -23,92 +23,53 @@ class Order extends React.Component {
     render() {
         return (
             <div className="row">
-                <Name name={this.state.name} onChange={this.inputOnChange("name").bind(this)} />
-                <Address address={this.state.address} />
-                <Postcode postcode={this.state.postcode} />
-                <Comments comments={this.state.comments} />
+                <Input value={this.state.name}
+                       onChange={this.inputOnChange("name").bind(this)}
+                       description="Name"
+                       placeholder="Your name..."
+                       name="name"/>
+                <Input value={this.state.address}
+                       onChange={this.inputOnChange("address").bind(this)}
+                       description="Address"
+                       placeholder="Your address..."
+                       name="address"/>
+                <Input value={this.state.postcode}
+                       onChange={this.inputOnChange("postcode").bind(this)}
+                       description="Postcode"
+                       placeholder="Your postcode..."
+                       name="postcode"/>
+                <Input value={this.state.comments}
+                       onChange={this.inputOnChange("comments").bind(this)}
+                       description="Comments"
+                       placeholder="Any additional info? (size, number of items etc.)"
+                       name="comments"/>
                 <Submit />
             </div>
         )
     }
 }
 
-class Name extends React.Component {
+class Input extends React.Component {
     constructor(props) {
         super(props)
     }
 
     handleChange() {
         this.props.onChange(
-            this.refs.name.value
+            this.refs.input.value
         )
     }
 
     render() {
         return (
             <div className="control-group">
-                <label className="control-label" for="username">Name</label>
+                <label className="control-label" for="username">{this.props.description}</label>
                 <div className="controls">
-                    <input type="text" id="name" name="name"
-                           ref="name"
-                           value={this.props.name}
+                    <input type="text" name={this.props.name}
+                           ref="input"
+                           value={this.props.value}
                            onChange={this.handleChange.bind(this)}
-                           placeholder="Your Name..." className="form-control input-lg" required/>
-                </div>
-            </div>
-        )
-    }
-}
-
-class Address extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <div className="control-group">
-                <label className="control-label" for="username">Address</label>
-                <div className="controls">
-                    <input type="text" id="name" name="name" value={this.props.address}
-                           placeholder="Your address..." className="form-control input-lg" required/>
-                </div>
-            </div>
-        )
-    }
-}
-
-class Postcode extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <div className="control-group">
-                <label className="control-label" for="username">Postcode</label>
-                <div className="controls">
-                    <input type="text" id="name" name="name" value={this.props.postcode}
-                           placeholder="Your postcode..." className="form-control input-lg" required/>
-                </div>
-            </div>
-        )
-    }
-}
-
-class Comments extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <div className="control-group">
-                <label className="control-label" for="username">Additional comment</label>
-                <div className="controls">
-                    <input type="text" id="name" name="name" value={this.props.comments}
-                           placeholder="Additional info? (size, num of objects etc.)"
-                           className="form-control input-lg"/>
+                           placeholder={this.props.placeholder} className="form-control input-lg" required/>
                 </div>
             </div>
         )
