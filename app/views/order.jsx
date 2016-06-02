@@ -11,6 +11,8 @@ class Order extends React.Component {
             comments: '',
             buttontext: 'Pay Now!',
             errorMessage: '',
+            items: [],
+            checkedItems: [],
         };
     }
 
@@ -74,9 +76,22 @@ class Order extends React.Component {
         }).bind(this)
     }
 
+    handleCheckbox(item, checked) {
+        if (checked) {
+            var newArray = this.state.checkedItems.slice();
+            newArray.push(item);
+            this.setState({checkedItems: newArray})
+        } else {
+            this.setState({
+                checkedItems: $.grep(this.state.checkedItems, (value) => value !== item)
+            })
+        }
+    }
+
     render() {
         return (
             <div className="row">
+                <Items items={this.state.items} onChange={this.handleCheckbox.bind(this)} />
                 <Input value={this.state.name}
                        onChange={this.inputOnChange("name").bind(this)}
                        description="Name"
@@ -99,6 +114,36 @@ class Order extends React.Component {
                        name="comments"/>
                 <Submit onClick={this.submit.bind(this)} buttontext={this.state.buttontext} />
                 <span style={{color: 'red'}}>{this.state.errorMessage}</span>
+            </div>
+        )
+    }
+}
+
+class Items extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    handleChange(e) {
+        this.props.onChange(e.target.value, e.target.checked);
+    }
+
+    render() {
+
+        let checkboxes = this.props.items.map(item => {
+            return (
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" onChange={this.handleChange.bind(this)} value={item} />
+                        {item}
+                    </label>
+                </div>
+            );
+        });
+
+        return (
+            <div>
+                {checkboxes}
             </div>
         )
     }
