@@ -7,6 +7,7 @@ GET        /session                @controllers.OAuth2.currentSession
 GET           /                                  @controllers.HomeController.index
 GET          /login                              @controllers.LoginController.index
 GET          /cart                               @controllers.CartController.index
+GET          /order                              @controllers.OrderController.index
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                      @controllers.Assets.versioned(path="/public", file: Asset)

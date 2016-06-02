@@ -1,0 +1,15 @@
+@()(implicit session: Session)
+
+@main("Anugro", "order") {
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-header">
+                <h1>Place your order</h1>
+            </div>
+        </div>
+    </div>
+    <div id="order">
+
+    </div>
+    <script src="@routes.Assets.versioned("javascripts/order.js")" type="text/javascript"></script>
+}

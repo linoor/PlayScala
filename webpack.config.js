@@ -7,7 +7,8 @@ var APP_DIR = path.resolve(__dirname, 'app/views');
 var config = {
     entry: {
         index: APP_DIR + '/index.jsx',
-        cart: APP_DIR + '/cart.jsx'
+        cart: APP_DIR + '/cart.jsx',
+        order: APP_DIR + '/order.jsx'
     },
     output: {
         path: BUILD_DIR,
