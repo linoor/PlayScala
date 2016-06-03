@@ -28,10 +28,10 @@ class Item extends React.Component {
     render () {
         let cartMessage = this.state.inCart ? "Remove from cart" : "Removed from cart";
         let disabled = !this.state.inCart;
-        let src = "http://lorempixel.com/200/320/food/" + this.props.num;
+        let src = "http://loremflickr.com/g/320/320/" + this.props.item.category;
 
         return (
-            <div className="col-md-4">
+            <div className="col-md-6">
                 <div className="media">
                     <div className="media-left">
                         <a href="#">
@@ -43,7 +43,7 @@ class Item extends React.Component {
                         <div className="item-description">
                             {this.props.item.description}
                             <div className="item-info">
-                                <span className="item-price">Price: {this.props.item.price}€</span>
+                                Price: <span className="item-price">{this.props.item.price}€</span>
                                 <div className="add-to-cart">
                                     <button disabled={disabled} onClick={this.removeFromCart} className="btn btn-default">
                                         {cartMessage}

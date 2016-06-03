@@ -12,11 +12,11 @@ class CategoryPicker extends React.Component {
 
     render() {
         return (
-            <div className="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
+            <div>
+                <div className="col-xs-12">
+                    <div className="input-group">
                         <p>Choose category:</p>
-                        <input onChange={this.onChange.bind(this)} type="text" class="form-control" placeholder="Search for..."/>
+                        <input onChange={this.onChange.bind(this)} type="text" className="form-control" placeholder="Search for..."/>
                     </div>
                 </div>
             </div>
@@ -45,10 +45,10 @@ class Item extends React.Component {
     render() {
         let cartMessage = this.props.added || this.state.inCart ? "In cart" : "Add to cart";
         let disabled = this.props.added || this.state.inCart;
-        let src = "http://lorempixel.com/200/320/food/" + this.props.num;
+        let src = "http://loremflickr.com/g/320/320/" + this.props.item.category;
 
         return (
-            <div className="col-md-4">
+            <div className="col-md-6">
                 <div className="media">
                     <div className="media-left">
                         <a href="#">
@@ -60,7 +60,7 @@ class Item extends React.Component {
                         <div className="item-description">
                             {this.props.item.description}
                             <div className="item-info">
-                                <span className="item-price"> {this.props.item.price}€</span>
+                                Price: <span className="item-price">{this.props.item.price}€</span>
                                 {(() => {
                                         if (this.props.userId != "None") {
                                             return (
@@ -129,7 +129,6 @@ class ItemList extends React.Component {
 
         return (
             <div>
-                <CategoryPicker category={this.state.category} changeCategory={this.changeCategory.bind(this)} />
                 <span>{this.state.errorMessage}</span>
                 <div id="item-list" class="items-list">
                     {items}
