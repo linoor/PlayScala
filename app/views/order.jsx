@@ -12,6 +12,7 @@ class Order extends React.Component {
             buttontext: 'Pay Now!',
             errorMessage: '',
             items: [],
+            inCartItems: [],
             checkedItems: [],
         };
     }
@@ -32,11 +33,11 @@ class Order extends React.Component {
                 userId: results
             });
             $.get('/api/cart/'+this.state.userId, (results) => {
-                let cartEntryItems = results.map(i => i.itemName);
-                this.setState({
-                    items: cartEntryItems
-                })
+                this.setState({inCartItems: results});
             });
+            $.get('/api/items', items => {
+                this.setState({items: items});
+            })
         })
     }
 
@@ -71,7 +72,7 @@ class Order extends React.Component {
                 dataType: 'json',
                 data: JSON.stringify({
                     userId: parseInt(this.state.userId),
-                    itemname: item,
+                    itemname: item.name,
                     name: this.state.name,
                     address: this.state.address,
                     postcode: this.state.postcode,
@@ -83,11 +84,11 @@ class Order extends React.Component {
                         errorMessage: ""
                     });
                     $.ajax({
-                        url: "/api/cart/"+this.state.userId+"/" + item,
+                        url: "/api/cart/"+this.state.userId+"/" + item.name,
                         type: 'DELETE',
                         success: (data) => {
                             this.setState({
-                                items: $.grep(this.state.items, (value) => value !== item)
+                                inCartItems: $.grep(this.state.inCartItems, (i) => i.itemName !== item.name)
                             })
                         }
                     });
@@ -99,25 +100,30 @@ class Order extends React.Component {
                 }).bind(this)
             })
         });
-        this.clearState().bind(this);
+        this.clearState.bind(this)();
     }
 
-    handleCheckbox(item, checked) {
+    handleCheckbox(itemName, checked) {
+        let item = this.state.items.filter(item => item.name === itemName)[0];
         if (checked) {
             var newArray = this.state.checkedItems.slice();
             newArray.push(item);
             this.setState({checkedItems: newArray})
         } else {
             this.setState({
-                checkedItems: $.grep(this.state.checkedItems, (value) => value !== item)
+                checkedItems: $.grep(this.state.checkedItems, item => item.name !== itemName)
             })
         }
     }
 
     render() {
+        let sum = this.state.checkedItems
+            .map(item => item.price)
+            .reduce((a,b) => a+b, 0);
+
         return (
             <div className="row">
-                <Items items={this.state.items} onChange={this.handleCheckbox.bind(this)} />
+                <Items items={this.state.inCartItems} onChange={this.handleCheckbox.bind(this)} />
                 <Input value={this.state.name}
                        onChange={this.inputOnChange("name").bind(this)}
                        description="Name"
@@ -138,6 +144,7 @@ class Order extends React.Component {
                        description="Comments"
                        placeholder="Any additional info? (size, number of items etc.)"
                        name="comments"/>
+                <div className="sum">Sum: <strong>{sum}</strong></div>
                 <Submit onClick={this.submit.bind(this)} buttontext={this.state.buttontext} />
                 <span style={{color: 'red'}}>{this.state.errorMessage}</span>
             </div>
@@ -160,8 +167,8 @@ class Items extends React.Component {
             return (
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" onChange={this.handleChange.bind(this)} value={item} />
-                        {item}
+                        <input type="checkbox" onChange={this.handleChange.bind(this)} value={item.itemName} />
+                        {item.itemName}
                     </label>
                 </div>
             );
