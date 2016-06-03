@@ -12,8 +12,8 @@ class CategoryPicker extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="col-xs-12">
+            <div className="row" id="chooser">
+                <div className="col-xs-3">
                     <div className="input-group">
                         <p>Choose category:</p>
                         <input onChange={this.onChange.bind(this)} type="text" className="form-control" placeholder="Search for..."/>
@@ -45,10 +45,10 @@ class Item extends React.Component {
     render() {
         let cartMessage = this.props.added || this.state.inCart ? "In cart" : "Add to cart";
         let disabled = this.props.added || this.state.inCart;
-        let src = "http://loremflickr.com/g/320/320/" + this.props.item.category;
+        let src = "http://loremflickr.com/g/320/320/" + this.props.item.category + '?random=' + this.props.num;
 
         return (
-            <div className="col-md-6">
+            <div className="col-xs-12 col-md-6 item">
                 <div className="media">
                     <div className="media-left">
                         <a href="#">
@@ -129,8 +129,9 @@ class ItemList extends React.Component {
 
         return (
             <div>
+                <CategoryPicker category={this.state.category} changeCategory={this.changeCategory.bind(this)} />
                 <span>{this.state.errorMessage}</span>
-                <div id="item-list" class="items-list">
+                <div id="item-list" className="items-list row">
                     {items}
                 </div>
             </div>

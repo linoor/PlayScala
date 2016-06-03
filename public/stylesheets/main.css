@@ -8,3 +8,11 @@
     font-weight: bold;
     font-size: 15px;
 }
+
+#chooser {
+    margin-bottom: 20px;
+}
+
+.item {
+    height: 400px;
+}

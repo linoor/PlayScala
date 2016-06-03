@@ -28,10 +28,10 @@ class Item extends React.Component {
     render () {
         let cartMessage = this.state.inCart ? "Remove from cart" : "Removed from cart";
         let disabled = !this.state.inCart;
-        let src = "http://loremflickr.com/g/320/320/" + this.props.item.category;
+        let src = "http://loremflickr.com/g/320/320/" + this.props.item.category + '?random=' + this.props.num;
 
         return (
-            <div className="col-md-6">
+            <div className="col-xs-12 col-md-6 item">
                 <div className="media">
                     <div className="media-left">
                         <a href="#">
