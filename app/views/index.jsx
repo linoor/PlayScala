@@ -119,7 +119,9 @@ class ItemList extends React.Component {
 
     render() {
         var index = 0;
-        let items = this.state.items.map((item) => {
+        let items = this.state.items
+            .filter(item => this.state.category === '' || item.category === this.state.category)
+            .map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
             index += 1;
             return <Item key={item.name} item={item} added={added} num={index} userId={this.state.userId}/>;
