@@ -32,11 +32,10 @@ class ItemDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) 
 
   private class ItemsTable(tag: Tag) extends Table[Item](tag, "ITEM") {
     def name = column[String]("NAME", O.PrimaryKey)
-
     def description = column[String]("DESCRIPTION")
-
     def price = column[Int]("PRICE")
+    def category = column[String]("CATEGORY")
 
-    def * = (name, description, price) <> (Item.tupled, Item.unapply _)
+    def * = (name, description, price, category) <> (Item.tupled, Item.unapply _)
   }
 }

@@ -22,7 +22,8 @@ class ItemController @Inject() (itemDAO: ItemDAO) extends Controller {
    mapping(
      "name" -> text(),
      "description" -> text(),
-     "price" -> number
+     "price" -> number,
+     "category" -> text()
    )(Item.apply)(Item.unapply)
  )
 

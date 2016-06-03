@@ -7,7 +7,7 @@ class Item extends React.Component {
         this.addToCart = this.addToCart.bind(this);
         this.render = this.render.bind(this);
         this.state = {
-            inCart: false,
+            inCart: false
         };
     }
 
