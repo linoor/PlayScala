@@ -1,6 +1,29 @@
 import React from 'react';
 import {render} from 'react-dom';
 
+class CategoryPicker extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    onChange(e) {
+        this.props.changeCategory(e.target.value);
+    }
+
+    render() {
+        return (
+            <div className="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <p>Choose category:</p>
+                        <input onChange={this.onChange.bind(this)} type="text" class="form-control" placeholder="Search for..."/>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
 class Item extends React.Component {
     constructor(props) {
         super(props);
@@ -12,14 +35,14 @@ class Item extends React.Component {
     }
 
     addToCart() {
-        $.post("/api/cart/"+this.props.userId+"/" + this.props.item.name, (results) => {
+        $.post("/api/cart/" + this.props.userId + "/" + this.props.item.name, (results) => {
             this.setState({
                 inCart: true
             })
         })
     }
 
-    render () {
+    render() {
         let cartMessage = this.props.added || this.state.inCart ? "In cart" : "Add to cart";
         let disabled = this.props.added || this.state.inCart;
         let src = "http://lorempixel.com/200/320/food/" + this.props.num;
@@ -38,20 +61,19 @@ class Item extends React.Component {
                             {this.props.item.description}
                             <div className="item-info">
                                 <span className="item-price"> {this.props.item.price}€</span>
-                                {( () => {
+                                {(() => {
                                         if (this.props.userId != "None") {
                                             return (
-                                            <div className="add-to-cart">
-                                                <button disabled={disabled} onClick={this.addToCart}
-                                                        className="btn btn-default">
-                                                    {cartMessage}
-                                                    <span className="glyphicon glyphicon-shopping-cart"/>
-                                                </button>
-                                            </div>
+                                                <div className="add-to-cart">
+                                                    <button disabled={disabled} onClick={this.addToCart}
+                                                            className="btn btn-default">
+                                                        {cartMessage}
+                                                        <span className="glyphicon glyphicon-shopping-cart"/>
+                                                    </button>
+                                                </div>
                                             )
                                         }
-                                    }
-                                )()}
+                                    })()}
                             </div>
                         </div>
                     </div>
@@ -66,11 +88,16 @@ class ItemList extends React.Component {
         super(props);
         this.state = {
             items: [],
-            errorMessage: 'No items for now...'
+            errorMessage: 'No items for now...',
+            category: "",
         }
     }
 
-    componentDidMount () {
+    changeCategory(newCategory) {
+       this.setState({category: newCategory})
+    }
+
+    componentDidMount() {
         $.get('/session', (results) => {
             this.setState({
                 userId: results
@@ -81,7 +108,7 @@ class ItemList extends React.Component {
                     errorMessage: ''
                 })
             });
-            $.get('/api/cart/'+this.state.userId, (results) => {
+            $.get('/api/cart/' + this.state.userId, (results) => {
                 let cartEntryItems = results.map(i => i.itemName);
                 this.setState({
                     userCartItems: cartEntryItems
@@ -90,16 +117,17 @@ class ItemList extends React.Component {
         })
     }
 
-    render () {
+    render() {
         var index = 0;
         let items = this.state.items.map((item) => {
             let added = $.inArray(item.name, this.state.userCartItems) > -1;
             index += 1;
-            return <Item key={item.name} item={item} added={added} num={index} userId={this.state.userId} />;
+            return <Item key={item.name} item={item} added={added} num={index} userId={this.state.userId}/>;
         });
 
         return (
             <div>
+                <CategoryPicker category={this.state.category} changeCategory={this.changeCategory.bind(this)} />
                 <span>{this.state.errorMessage}</span>
                 <div id="item-list" class="items-list">
                     {items}
