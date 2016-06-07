@@ -24,6 +24,7 @@ class Order extends React.Component {
             postcode: '',
             comments: '',
             errorMessage: '',
+            checkedItems: [],
         });
     }
 
